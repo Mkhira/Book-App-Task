@@ -4,6 +4,7 @@ import 'package:booktask/Constant/ColorConistant.dart';
 import 'package:booktask/Models/BookModel.dart';
 import 'package:booktask/Widget/AppButton.dart';
 import 'package:booktask/Widget/BottomSheet.dart';
+import 'package:booktask/Widget/ShakeTransition.dart';
 import 'package:booktask/Widget/app_text.dart';
 import 'package:booktask/Widget/app_text_field.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,23 +70,35 @@ class _BookDetailsState extends State<BookDetails> {
            SizedBox(height: scaler.getHeight(2),),
            Padding(
              padding: scaler.getPaddingLTRB(2, 2, 2, 0),
-             child: Align(
-               alignment: Alignment.topLeft,
-               child: AppText(text: "${widget.name}",
-               ellipsis: false,
-               color: ColorConstants.darkBlueColor,
-                 style: AppTextStyle.medium,
+             child: ShakeTransition(
+
+               duration: Duration(milliseconds: 2000),
+               axis: Axis.vertical,
+
+               child: Align(
+                 alignment: Alignment.topLeft,
+                 child: AppText(text: "${widget.name}",
+                 ellipsis: false,
+                 color: ColorConstants.darkBlueColor,
+                   style: AppTextStyle.medium,
+                 ),
                ),
              ),
            ),
            Padding(
              padding: scaler.getPaddingLTRB(2, 1, 2, 0),
-             child: Align(
-               alignment: Alignment.topLeft,
-               child: AppText(text: "${widget.author}",
-               ellipsis: false,
-               color: ColorConstants.darkBlueColor,
-                 style: AppTextStyle.regular,
+             child: ShakeTransition(
+
+               duration: Duration(milliseconds: 2000),
+               axis: Axis.vertical,
+
+               child: Align(
+                 alignment: Alignment.topLeft,
+                 child: AppText(text: "${widget.author}",
+                 ellipsis: false,
+                 color: ColorConstants.darkBlueColor,
+                   style: AppTextStyle.regular,
+                 ),
                ),
              ),
            ),
@@ -104,12 +117,16 @@ class _BookDetailsState extends State<BookDetails> {
                      decoration: BoxDecoration(
                        color: ColorConstants.grey,
                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20))
-                     ),
-                     child: Align(
-                       alignment: Alignment.bottomCenter,
-                       child: ClipRRect(
-                           borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-                           child: Image(image: AssetImage("${widget.image}"),height:isPortrait?  scaler.getHeight(23):scaler.getWidth(23) ,)),
+                      ),
+                     child: ShakeTransition(
+                       duration: Duration(milliseconds: 2000),
+                       axis: Axis.horizontal,
+                       child: Align(
+                         alignment: Alignment.bottomCenter,
+                         child: ClipRRect(
+                             borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                             child: Image(image: AssetImage("${widget.image}"),height:isPortrait?  scaler.getHeight(23):scaler.getWidth(23) ,)),
+                       ),
                      ),
 
                    ),
@@ -120,19 +137,23 @@ class _BookDetailsState extends State<BookDetails> {
                    child: ValueListenableBuilder(
                      valueListenable: bookModelBox.listenable(),
                      builder: (context,Box<BookModel> box,_){
-                       return  AppButton(
-                         enabled: true,
-                         height: isPortrait ? 6:10,
-                         width: 40,
-                         onPressed: (){
-                           if(widget.amount !=0 && box.get(widget.index).amount !=0){
-                             showBottomSheet(name: widget.name,author: widget.author,context: context,scaler: scaler,amount: widget.amount,myKey: widget.index,image: widget.image,brief: widget.brief);
-                           }else{
-                             onCustomAnimationAlertPressed(context);
-                           }
+                       return  ShakeTransition(
+                         duration: Duration(milliseconds: 2000),
 
-                         },
-                         text: "Borrow the book",
+                         child: AppButton(
+                           enabled: true,
+                           height: isPortrait ? 6:10,
+                           width: 40,
+                           onPressed: (){
+                             if(widget.amount !=0 && box.get(widget.index).amount !=0){
+                               showBottomSheet(name: widget.name,author: widget.author,context: context,scaler: scaler,amount: widget.amount,myKey: widget.index,image: widget.image,brief: widget.brief);
+                             }else{
+                               onCustomAnimationAlertPressed(context);
+                             }
+
+                           },
+                           text: "Borrow the book",
+                         ),
                        );
                      },
                    )
@@ -142,17 +163,23 @@ class _BookDetailsState extends State<BookDetails> {
            ),
            Padding(
              padding: scaler.getPaddingLTRB(2, 1, 2, 0),
-             child: Align(
-               alignment: Alignment.topLeft,
-               child: Container(
-                 width: isPortrait? scaler.getWidth(80) : scaler.getHeight(80),
-                 child: Row(
-                   children: [
-                     AppText(text: "Amount: ",color: ColorConstants.darkBlueColor,style: AppTextStyle.medium,),
-                     ValueListenableBuilder(valueListenable: bookModelBox.listenable(), builder: (context,Box<BookModel> box,_){
-                       return                     AppText(text: "${box.get(widget.index).amount}",style: AppTextStyle.regular,color: Colors.black,);
-                     })
-                   ],
+             child: ShakeTransition(
+
+               duration: Duration(milliseconds: 2000),
+               axis: Axis.vertical,
+
+               child: Align(
+                 alignment: Alignment.topLeft,
+                 child: Container(
+                   width: isPortrait? scaler.getWidth(80) : scaler.getHeight(80),
+                   child: Row(
+                     children: [
+                       AppText(text: "Amount: ",color: ColorConstants.darkBlueColor,style: AppTextStyle.medium,),
+                       ValueListenableBuilder(valueListenable: bookModelBox.listenable(), builder: (context,Box<BookModel> box,_){
+                         return                     AppText(text: "${box.get(widget.index).amount}",style: AppTextStyle.regular,color: Colors.black,);
+                       })
+                     ],
+                   ),
                  ),
                ),
              ),
@@ -161,25 +188,37 @@ class _BookDetailsState extends State<BookDetails> {
            SizedBox(height: scaler.getHeight(2),),
            Padding(
              padding: scaler.getPaddingLTRB(2, 1, 2, 0),
-             child: Align(
-               alignment: Alignment.topLeft,
-               child: AppText(text: "Brief:",
-                 ellipsis: false,
-                 color: ColorConstants.darkBlueColor,
-                 style: AppTextStyle.medium,
+             child: ShakeTransition(
+
+               duration: Duration(milliseconds: 2000),
+               axis: Axis.vertical,
+
+               child: Align(
+                 alignment: Alignment.topLeft,
+                 child: AppText(text: "Brief:",
+                   ellipsis: false,
+                   color: ColorConstants.darkBlueColor,
+                   style: AppTextStyle.medium,
+                 ),
                ),
              ),
            ),
 
            Padding(
              padding: scaler.getPaddingLTRB(2, 2, 2, 0),
-             child: Align(
-               alignment: Alignment.topLeft,
-                 child: AppText( text: "${widget.brief}",
-                 ellipsis: false,
-                 align: false,
-                 color: ColorConstants.darkBlueColor,
-                 style: AppTextStyle.medium,
+             child: ShakeTransition(
+
+               duration: Duration(milliseconds: 2000),
+               axis: Axis.vertical,
+
+               child: Align(
+                 alignment: Alignment.topLeft,
+                   child: AppText( text: "${widget.brief}",
+                   ellipsis: false,
+                   align: false,
+                   color: ColorConstants.darkBlueColor,
+                   style: AppTextStyle.medium,
+                 ),
                ),
              ),
            ),
