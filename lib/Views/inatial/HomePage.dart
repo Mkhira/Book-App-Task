@@ -34,8 +34,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2.2;
+    final double itemWidth = size.width / 2;
     ScreenScaler scaler = ScreenScaler()..init(context);
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
@@ -64,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             List<int> keys = box.keys.cast<int>().toList();
             return  AnimationLimiter(
               child: GridView.count(
-                childAspectRatio:isPortrait?3/4.2 :3/4.7,
+                childAspectRatio:isPortrait?itemWidth / itemHeight:3/4.7,
                 crossAxisCount: isPortrait? 2 :4,
                 padding: scaler.getPaddingAll(4),
                 crossAxisSpacing: 10,
